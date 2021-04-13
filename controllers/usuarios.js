@@ -12,7 +12,7 @@ const usuariosGet = async(req = request, res= response) => {
     //     .limit(Number(limite))
     // const total = await Usuario.count( query)
     // res.json({
-    //     total,
+    //     total, 
     //     usuarios
     // })
     const [ total, usuarios ] = await Promise.all([
