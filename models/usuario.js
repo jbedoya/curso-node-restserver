@@ -37,7 +37,8 @@ const UsuarioSchema = Schema({
 
 // para remover el __v y la clave del usuario devuelto, se sobreecribe el metodo toJSON
 UsuarioSchema.methods.toJSON = function() {
-    const { __v, clave, ...usuario } = this.toObject()
+    const { __v, clave, _id, ...usuario } = this.toObject()
+    usuario.uid = _id
     return usuario
 }
 
