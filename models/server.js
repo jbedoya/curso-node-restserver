@@ -9,7 +9,7 @@ class Server {
         this.port = process.env.PORT
 
         this.paths = {
-            auth:       '/api/usuarios',
+            auth:       '/api/auth',
             usuarios:   '/api/usuarios',
             categorias: '/api/categorias',
         }

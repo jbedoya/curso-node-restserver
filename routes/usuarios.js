@@ -4,7 +4,7 @@ const { check } = require('express-validator')
 // const { validarCampos } = require('../middleware/validar-campos')
 // const { validarJWT } = require('../middleware/validar-jwt')
 // const { esAdminRole, tieneRole } = require('../middleware/validar-roles')
-const { validarCampos, validarJWT, esAdminRole, tieneRole } = require('../middleware')
+const { validarCampos, validarJWT, esAdminRole, tieneRole } = require('../middlewares')
 
 const { esRoleValido, emailExiste, existeusuarioPorId } = require('../helpers/db-validators')
 const { usuariosGet, usuariosPost, usuariosPut, usuariosPatch, usuariosDelete } = require('../controllers/usuarios')

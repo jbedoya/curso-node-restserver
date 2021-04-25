@@ -3,7 +3,7 @@ const { check } = require('express-validator')
 
 const { login, googleSignin } = require('../controllers/auth')
 const { emailExiste } = require('../helpers/db-validators')
-const { validarCampos } = require('../middleware/validar-campos')
+const { validarCampos } = require('../middlewares/validar-campos')
 
 const router = Router()
 
