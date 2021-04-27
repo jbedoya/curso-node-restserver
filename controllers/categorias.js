@@ -36,7 +36,7 @@ const crearCategoria = async(req, res = response ) => {
 
     const nombre = req.body.nombre.toUpperCase();
 
-    const categoriaDB = await Categoria.findOne({nombre})
+    const categoriaDB = await Categoria.findOne({ nombre })
     if ( categoriaDB ){
         return res.status(400).json({
             msg: `La categoria ${categoriaDB.nombre} ya existe`
@@ -81,7 +81,7 @@ const actualizarCategoria = async( req, res = response ) => {
 const borrarCategoria = async( req, res) => {
     const { id } = req.params
 
-    const categoria = await Categoria.findByIdAndUpdate(id, {estado: false}, { new: true })
+    const categoria = await Categoria.findByIdAndUpdate(id, { estado: false }, { new: true })
 
     res.json({ categoria })
 
