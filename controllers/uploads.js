@@ -1,43 +1,57 @@
 const { response } = require("express");
+const { subirArchivo } = require("../helpers");
 
-const path = require('path')
-const { v4: uuidv4 } = require('uuid');
+const { Usuario, Producto } = require('../models')
 
-
-const cargarArchivo = (req, res = response) => {
+const cargarArchivo = async(req, res = response) => {
 
     if (!req.files || Object.keys(req.files).length === 0 || !req.files.archivo) {
-      res.status(400).send('No hay archivos que subir.')
+      res.status(400).json({msg: 'No hay archivos que subir.'})
       return
     }
   
-    const { archivo } = req.files
-  
-    const nombreCortado = archivo.name.split('.')
-    const extension = nombreCortado[nombreCortado.length - 1]
+    try {
+        const nombre = await subirArchivo( req.files, undefined, 'imgs' )
+        res.json({ nombre })            
+    } catch (msg) {
+        res.status(400).json({ msg })
+    
+    }
+    
+}
 
-    //validar la extension
-    const extensionesValidas = ['png','jpg','jpeg','gif']
+const actualizarImagen = async(req, res = response) => { 
+    const { id, coleccion } = req.params
 
-    if (!extensionesValidas.includes(extension)) {
-        return res.status(400).json({
-            msg: `La extension ${extension} no es permitida, solo: ${ extensionesValidas }`
-        })
+    let modelo
+
+    switch (coleccion) {
+        case 'usuarios':
+            modelo = await Usuario.findById(id)
+            if (!modelo) {
+                return res.status(400).json({ msg: `No existe un usuario con el id: ${id}`})
+            }
+            break;
+        case 'productos':
+            modelo = await Producto.findById(id)
+            if (!modelo) {
+                return res.status(400).json({ msg: `No existe un producto con el id: ${id}`})
+            }
+            break;
+        default:
+            return res.status(500).json({ msg: 'Falta implementar esto'})
     }
 
-    const nombreTemp = uuidv4() + '.' + extension
-    const uploadPath = path.join( __dirname + '/../uploads/', nombreTemp )
-  
-    archivo.mv(uploadPath, (err) => {
-        if (err) {
-            return res.status(500).send(err)
-        }
-        res.json({msg: 'Archivo cargado en ' + uploadPath})
-    });
-    
+    const nombre = await subirArchivo( req.files, undefined, coleccion )
+    modelo.imagen = nombre
+
+    await modelo.save()
+
+    res.json( modelo )
 }
 
 
 module.exports = {
-    cargarArchivo
+    cargarArchivo,
+    actualizarImagen
 }

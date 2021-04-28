@@ -5,8 +5,8 @@ const googleVerify = require('./google-verify')
 const subriArchivo = require('./subir-archivo')
 
 module.exports = {
-    dbValidators, 
-    generarJWT, 
-    googleVerify, 
-    subriArchivo
+    ...dbValidators, 
+    ...generarJWT, 
+    ...googleVerify, 
+    ...subriArchivo
 }
