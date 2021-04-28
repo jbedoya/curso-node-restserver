@@ -7,7 +7,7 @@ const subirArchivo = ( files, extensionesValidas = ['png','jpg','jpeg','gif'], c
 
         const { archivo } = files
         const nombreCortado = archivo.name.split('.')
-        const extension = nombreCortado[nombreCortado.length - 1]
+        const extension = nombreCortado[nombreCortado.length - 1].toLowerCase()
     
         if (!extensionesValidas.includes(extension)) {
             return reject(`La extension ${extension} no es permitida, solo: ${ extensionesValidas }`)
